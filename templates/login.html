@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+<form name="login" action="/chat" method="post">
+    Hello {{ title }}, please input your question:
+    <input type="text" name="text" />
+</form>
+{% endblock %}
