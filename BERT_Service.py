@@ -5,6 +5,7 @@ import jieba.analyse, jieba.posseg
 import jieba
 import pickle
 import json
+import wikipedia
 
 
 app = Flask(__name__)
@@ -39,11 +40,17 @@ def chat():
     return render_template('chat.html', title=title)
 
 
-@app.route('/chat_2/', methods=['GET'])
-def chat_2():
+@app.route('/wiki/', methods=['GET', 'POST'])
+def wiki():
+    if request.method == 'POST':
+        data = json.loads(request.get_data(as_text=True))
+        wikipedia.set_lang("zh")
+        keyword = wikipedia.page(data)
+        response = keyword.summary
+        return response
+
     title = request.args.get('title', 'Default')
     return render_template('chat.html', title=title)
-
 
 
 
@@ -108,8 +115,6 @@ def ner_extract(sent):
                         break
                     entity = words[ind-1]
     return entity
-
-
 
 
 semantic_model, bow = init_semantic()

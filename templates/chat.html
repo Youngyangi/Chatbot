@@ -245,10 +245,16 @@ function chat(){
 
         var param = new Array();
         param.push({ "name":"text","value":txt.value});
-
-        var serverUrl = "http://127.0.0.1:5000/chat/";
+		var txt_for_send;
+        if (txt.value.includes("wiki")){
+        	var serverUrl = "http://127.0.0.1:5000/wiki/";
+        	txt_for_send = txt.value.replace("wiki", "");
+		}else{
+			var serverUrl = "http://127.0.0.1:5000/chat/";
+			txt_for_send = txt.value
+		}
         // var res = httpPostTest(serverUrl,txt.value);
-		httpPostTest(serverUrl,txt.value, function (data) {
+		httpPostTest(serverUrl,txt_for_send, function (data) {
 			var sTxt = document.createTextNode(data);
 			spans.appendChild(sTxt);
 
